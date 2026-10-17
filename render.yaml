@@ -1,9 +1,9 @@
 services:
   # 1. The Node.js Backend Server
   - type: web
-    name: farmdirect-backend
+    name: agriconnect-backend
     env: node
-    region: ohio
+    region: oregon
     plan: free
     rootDir: backend
     buildCommand: npm install
@@ -14,13 +14,13 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL
-        value: https://farmdirect-hub-1.onrender.com
+        value: https://agriconnect-frontend.onrender.com
 
   # 2. The React Frontend Static Site
   - type: web
-    name: farmdirect-frontend
+    name: agriconnect-frontend
     env: static
-    region: ohio
+    region: oregon
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
@@ -31,6 +31,6 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://farmdirect-hub.onrender.com/api
+        value: https://agriconnect-backend.onrender.com/api
       - key: VITE_UPLOADS_URL
-        value: https://farmdirect-hub.onrender.com/uploads
+        value: https://agriconnect-backend.onrender.com/uploads
