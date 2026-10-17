@@ -82,6 +82,45 @@ export function ensureVegetablesAndStock() {
         );
       }
     }
+
+    // Ensure sample feedback if none exists
+    const feedbackCount: any = db.prepare("SELECT COUNT(*) as count FROM feedback").get();
+    if (!feedbackCount || feedbackCount.count === 0) {
+      const adviser: any = db.prepare("SELECT id FROM users WHERE role = 'ADVISER' LIMIT 1").get();
+      const farmer: any = db.prepare("SELECT id, full_name, mobile_number FROM users WHERE role = 'FARMER' LIMIT 1").get();
+      const consumer: any = db.prepare("SELECT id, full_name, mobile_number FROM users WHERE role = 'CONSUMER' LIMIT 1").get();
+
+      if (adviser && farmer) {
+        db.prepare(`
+          INSERT INTO feedback (user_id, submitter_role, submitter_name, submitter_contact, feedback_type, adviser_id, rating, comments)
+          VALUES (?, 'FARMER', ?, ?, 'ADVISER', ?, 5, ?)
+        `).run(
+          farmer.id,
+          farmer.full_name || 'Ramesh Kumar',
+          farmer.mobile_number || '9876543210',
+          adviser.id,
+          'Dr. Ramesh provided accurate diagnosis for my tomato crop early blight. The biological treatment recommendation saved almost 80% of my harvest. Highly knowledgeable and respectful!'
+        );
+      }
+
+      if (adviser && consumer) {
+        db.prepare(`
+          INSERT INTO feedback (user_id, submitter_role, submitter_name, submitter_contact, feedback_type, adviser_id, rating, comments)
+          VALUES (?, 'CONSUMER', ?, ?, 'ADVISER', ?, 5, ?)
+        `).run(
+          consumer.id,
+          consumer.full_name || 'Ravi Kumar',
+          consumer.mobile_number || '9876543220',
+          adviser.id,
+          'Appreciated the adviser guidance on seasonal organic veggies and soil quality. Helps us buy with full trust.'
+        );
+      }
+
+      db.prepare(`
+        INSERT INTO feedback (user_id, submitter_role, submitter_name, submitter_contact, feedback_type, adviser_id, rating, comments)
+        VALUES (NULL, 'GUEST', 'Venkat Rao', 'venkat.rao@gmail.com', 'PLATFORM', NULL, 5, 'AgriConnect is transparent and directly connects farmers to consumers without greedy middlemen. Love the interface!')
+      `).run();
+    }
   } catch (err) {
     console.error('Error ensuring catalog and demo accounts:', err);
   }

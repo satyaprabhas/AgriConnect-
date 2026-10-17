@@ -18,7 +18,7 @@ interface ConfirmationDialogProps {
 }
 
 export default function ConfirmationDialog({
-  isOpen, onConfirm, onCancel, onClose, title, message, confirmLabel, confirmText, variant, type
+  isOpen, onConfirm, onCancel, onClose, title, message, confirmLabel, confirmText, cancelText, variant, type
 }: ConfirmationDialogProps) {
   const handleCancel = onCancel || onClose || (() => {});
   const label = confirmLabel || confirmText || 'Confirm';
@@ -38,7 +38,7 @@ export default function ConfirmationDialog({
             onClick={handleCancel}
             className="flex-1 px-4 py-2.5 border border-gray-300 rounded-xl text-gray-700 font-medium hover:bg-gray-50 transition-colors"
           >
-            Cancel
+            {cancelText || 'Cancel'}
           </button>
           <button
             onClick={onConfirm}

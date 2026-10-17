@@ -20,6 +20,7 @@ import coordinatorRoutes from './routes/coordinator';
 import notificationRoutes from './routes/notifications';
 import profileRoutes from './routes/profile';
 import adviserRoutes from './routes/adviser';
+import feedbackRoutes from './routes/feedback';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -56,8 +57,9 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/coordinator', coordinatorRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
-app.get('/api/health', (req, res) => { res.json({ status: 'ok', message: 'FarmDirect Hub API is running' }); });
+app.get('/api/health', (req, res) => { res.json({ status: 'ok', message: 'AgriConnect API is running' }); });
 
 // Initialize DB (async) then start server
 async function startServer() {
@@ -65,7 +67,7 @@ async function startServer() {
   initializeDatabase();
   ensureVegetablesAndStock();
   app.listen(PORT, () => {
-    console.log(`🌱 FarmDirect Hub Backend running on http://localhost:${PORT}`);
+    console.log(`🌱 AgriConnect Backend running on http://localhost:${PORT}`);
   });
 }
 

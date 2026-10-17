@@ -73,9 +73,9 @@ export default function RegisterSelect() {
         <div className="text-center mb-12">
           <Link to="/" className="inline-flex items-center gap-2 text-primary-600 mb-6 hover:opacity-80 transition-opacity">
             <Sprout className="w-8 h-8" />
-            <span className="text-2xl font-bold">{t('brand.name', 'FarmDirect Hub')}</span>
+            <span className="text-2xl font-bold">{t('brand.name', 'AgriConnect')}</span>
           </Link>
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-4">{t('reg.joinTitle', 'Join FarmDirect Hub')}</h2>
+          <h2 className="text-4xl font-extrabold text-gray-900 mb-4">{t('reg.joinTitle', 'Join AgriConnect')}</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             {t('reg.joinSubtitle', 'Choose your role to get started and be part of the agricultural revolution.')}
           </p>

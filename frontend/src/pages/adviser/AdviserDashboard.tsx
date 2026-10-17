@@ -19,7 +19,9 @@ import {
   Leaf,
   Calendar,
   Maximize2,
-  Sparkles
+  Sparkles,
+  Star,
+  MessageSquare
 } from 'lucide-react';
 import api, { getImageUrl } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';

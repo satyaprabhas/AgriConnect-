@@ -184,6 +184,19 @@ export function initializeDatabase() {
       is_read INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS feedback (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER REFERENCES users(id),
+      submitter_role TEXT NOT NULL CHECK(submitter_role IN ('CONSUMER','FARMER','LARGE_SCALE_CONSUMER','COORDINATOR','ADVISER','GUEST')),
+      submitter_name TEXT NOT NULL,
+      submitter_contact TEXT,
+      feedback_type TEXT NOT NULL CHECK(feedback_type IN ('ADVISER','PLATFORM','DELIVERY','FARMER_EXPERIENCE','GENERAL')),
+      adviser_id INTEGER REFERENCES users(id),
+      rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 5),
+      comments TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Safe migrations for existing tables
@@ -223,4 +236,20 @@ export function initializeDatabase() {
   try { db.exec(`ALTER TABLE orders ADD COLUMN order_type TEXT DEFAULT 'RETAIL';`); } catch (_) {}
   try { db.exec(`ALTER TABLE soil_nutrient_consultations ADD COLUMN fertilizer_preference TEXT DEFAULT 'ORGANIC';`); } catch (_) {}
   try { db.exec(`ALTER TABLE soil_nutrient_consultations ADD COLUMN fertilizer_advice TEXT;`); } catch (_) {}
+  try {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS feedback (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER REFERENCES users(id),
+        submitter_role TEXT NOT NULL CHECK(submitter_role IN ('CONSUMER','FARMER','LARGE_SCALE_CONSUMER','COORDINATOR','ADVISER','GUEST')),
+        submitter_name TEXT NOT NULL,
+        submitter_contact TEXT,
+        feedback_type TEXT NOT NULL CHECK(feedback_type IN ('ADVISER','PLATFORM','DELIVERY','FARMER_EXPERIENCE','GENERAL')),
+        adviser_id INTEGER REFERENCES users(id),
+        rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 5),
+        comments TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+  } catch (_) {}
 }

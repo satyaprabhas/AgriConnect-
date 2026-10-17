@@ -38,8 +38,8 @@ function saveBase64Image(dataString: string | undefined): string | null {
 
 router.get('/dashboard', (req: AuthRequest, res) => {
   try {
-    const produceCount = (db.prepare("SELECT COUNT(*) as c FROM farmer_produce WHERE farmer_id = ?").get(req.user.id) as any).c;
-    const stockSum = (db.prepare("SELECT COALESCE(SUM(available_quantity), 0) as s FROM farmer_produce WHERE farmer_id = ?").get(req.user.id) as any).s;
+    const produceCount = (db.prepare("SELECT COUNT(*) as c FROM farmer_produce WHERE farmer_id = ? AND (status IS NULL OR status != 'INACTIVE')").get(req.user.id) as any).c;
+    const stockSum = (db.prepare("SELECT COALESCE(SUM(available_quantity), 0) as s FROM farmer_produce WHERE farmer_id = ? AND (status IS NULL OR status != 'INACTIVE')").get(req.user.id) as any).s;
     const ordersReceived = (db.prepare("SELECT COUNT(DISTINCT order_id) as c FROM order_items WHERE farmer_id = ?").get(req.user.id) as any).c;
     const completedOrders = (db.prepare("SELECT COUNT(DISTINCT oi.order_id) as c FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE oi.farmer_id = ? AND o.status = 'DELIVERED'").get(req.user.id) as any).c;
     const totalEarnings = (db.prepare("SELECT COALESCE(SUM(oi.subtotal), 0) as s FROM order_items oi JOIN orders o ON oi.order_id = o.id WHERE oi.farmer_id = ? AND o.status = 'DELIVERED'").get(req.user.id) as any).s;
@@ -76,7 +76,8 @@ router.get('/produce', (req: AuthRequest, res) => {
       SELECT fp.*, v.name as vegetable_name, v.current_price
       FROM farmer_produce fp
       JOIN vegetables v ON fp.vegetable_id = v.id
-      WHERE fp.farmer_id = ?
+      WHERE fp.farmer_id = ? AND (fp.status IS NULL OR fp.status != 'INACTIVE')
+      ORDER BY fp.listed_at DESC
     `).all(req.user.id);
     
     const result = produce.map((p: any) => {
@@ -159,10 +160,28 @@ router.put('/produce/:id', (req: AuthRequest, res) => {
 
 router.delete('/produce/:id', (req: AuthRequest, res) => {
   try {
-    const info = db.prepare("UPDATE farmer_produce SET status = 'INACTIVE' WHERE id = ? AND farmer_id = ?").run(req.params.id, req.user.id);
-    if (info.changes === 0) return res.status(404).json({ error: 'Produce not found or unauthorized' });
-    res.json({ success: true });
+    const produceId = req.params.id;
+    const farmerId = req.user.id;
+
+    const existing: any = db.prepare("SELECT id FROM farmer_produce WHERE id = ? AND farmer_id = ?").get(produceId, farmerId);
+    if (!existing) {
+      return res.status(404).json({ error: 'Produce not found or unauthorized' });
+    }
+
+    db.transaction(() => {
+      // 1. Remove from carts
+      db.prepare("DELETE FROM cart_items WHERE produce_id = ?").run(produceId);
+      // 2. Remove associated images
+      db.prepare("DELETE FROM produce_images WHERE produce_id = ?").run(produceId);
+      // 3. Clear produce_id from order_items so historical order records are kept without foreign key errors
+      db.prepare("UPDATE order_items SET produce_id = NULL WHERE produce_id = ?").run(produceId);
+      // 4. Delete the produce item
+      db.prepare("DELETE FROM farmer_produce WHERE id = ? AND farmer_id = ?").run(produceId, farmerId);
+    })();
+
+    res.json({ success: true, message: 'Produce listing deleted successfully' });
   } catch (err) {
+    console.error('Error deleting produce:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

@@ -215,7 +215,7 @@ export default function Checkout() {
                           {t('cart.hubPickupOption', 'Hub Pickup (Free)')}
                         </span>
                         <span className="text-xs text-emerald-700">
-                          {t('bulk.minNotice', 'Wholesale orders must be collected directly from FarmDirect Hub (Min. ₹500).')}
+                          {t('bulk.minNotice', 'Wholesale orders must be collected directly from AgriConnect Hub (Min. ₹500).')}
                         </span>
                       </div>
                     </div>

@@ -144,7 +144,7 @@ export default function Cart() {
           <div className="mt-4 flex items-start gap-3 text-sm text-gray-500 bg-blue-50 p-4 rounded-xl border border-blue-100">
             <ShieldAlert className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
             <p>
-              <strong className="text-blue-800">{t('cart.fairTradeGuarantee', 'Fair Trade Guarantee:')}</strong> {t('cart.fairTradeDesc', 'Prices are set by FarmDirect Hub admin and are non-negotiable. This ensures farmers receive fair compensation and consumers pay transparent, market-appropriate rates.')}
+              <strong className="text-blue-800">{t('cart.fairTradeGuarantee', 'Fair Trade Guarantee:')}</strong> {t('cart.fairTradeDesc', 'Prices are set by AgriConnect admin and are non-negotiable. This ensures farmers receive fair compensation and consumers pay transparent, market-appropriate rates.')}
             </p>
           </div>
         </div>

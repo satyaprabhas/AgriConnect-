@@ -12,12 +12,15 @@ import {
   Info, 
   Loader2,
   GraduationCap,
-  Building2
+  Building2,
+  Star,
+  MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
+import FeedbackModal from '../../components/common/FeedbackModal';
 
 type Role = 'CONSUMER' | 'FARMER' | 'COORDINATOR' | 'ADMIN' | 'ADVISER' | 'LARGE_SCALE_CONSUMER';
 
@@ -33,6 +36,7 @@ export default function LandingPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,76 +125,90 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen flex animate-fade-in relative">
-      {/* Top Floating Language Switcher for all devices */}
-      <div className="absolute top-4 right-4 z-50">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-white relative animate-fade-in">
+      {/* Top Floating Actions for all devices */}
+      <div className="absolute top-4 right-4 z-50 flex items-center gap-2 sm:gap-3">
+        <button
+          type="button"
+          onClick={() => setShowFeedbackModal(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-white/90 hover:bg-white text-emerald-800 text-xs sm:text-sm font-semibold shadow-md border border-emerald-100 hover:shadow-lg transition-all cursor-pointer"
+        >
+          <MessageSquare className="w-4 h-4 text-emerald-600" />
+          <span>{language === 'te' ? 'అభిప్రాయం ఇవ్వండి' : 'Give Feedback'}</span>
+        </button>
         <LanguageToggle />
       </div>
 
       {/* Left Side - Hidden on Mobile */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-700 to-primary-900 p-12 flex-col justify-between relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none z-0">
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
-            <path d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z" fill="currentColor" />
-          </svg>
-        </div>
-
+      {/* Left Side - Hidden on Mobile */}
+      <div className="hidden lg:flex lg:w-1/2 p-8 xl:p-12 flex-col justify-start relative overflow-hidden bg-slate-900 min-h-[680px]">
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <img src="/farmer-hero.jpg" alt="Farmer Background" className="w-full h-full object-cover opacity-100" />
+          <img 
+            src="/farmer-hero.jpg" 
+            alt="AgriConnect Farmer" 
+            className="w-full h-full object-cover" 
+            style={{ objectPosition: '85% 100%' }}
+          />
         </div>
 
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 text-green-900 mb-16">
-            <Sprout className="w-10 h-10" />
-            <span className="text-3xl font-bold tracking-tight">{t('brand.name', 'FarmDirect Hub')}</span>
+        {/* Content Container */}
+        <div className="relative z-10 max-w-xl">
+          {/* Brand Header */}
+          <div className="flex items-center gap-3 text-emerald-950 mb-6">
+            <div className="p-2.5 bg-emerald-600/95 text-white rounded-2xl shadow-md">
+              <Sprout className="w-8 h-8 xl:w-9 xl:h-9" />
+            </div>
+            <span className="text-3xl xl:text-4xl font-extrabold tracking-tight text-emerald-950 drop-shadow-xs">{t('brand.name', 'AgriConnect')}</span>
           </div>
 
-          <h1 className="text-5xl font-extrabold text-green-900 leading-tight mb-6">
+          {/* Headline & Subtitle */}
+          <h1 className="text-4xl xl:text-5xl font-black text-emerald-950 leading-tight mb-3 drop-shadow-xs">
             {language === 'te' ? (
-              <>రైతులు & వినియోగదారుల <br /><span className="text-green-700">ప్రత్యక్ష అనుసంధానం</span></>
+              <>రైతులు & వినియోగదారుల <br /><span className="text-emerald-800">ప్రత్యక్ష అనుసంధానం</span></>
             ) : (
-              <>Connecting Farmers & Consumers <br /><span className="text-green-700">Directly</span></>
+              <>Connecting Farmers & Consumers <br /><span className="text-emerald-800">Directly</span></>
             )}
           </h1>
           
-          <p className="text-xl text-green-800 mb-12 max-w-lg leading-relaxed font-medium">
-            {t('auth.subtitle', 'Empowering farmers. Ensuring fair prices. Delivering fresh produce. Join our community and make a difference.')}
+          <p className="text-base xl:text-lg text-emerald-900 leading-relaxed font-semibold drop-shadow-xs mb-6">
+            {t('auth.subtitle', 'Empowering farmers with fair mandated prices & connecting consumers directly with fresh harvest.')}
           </p>
 
-          <div className="space-y-4 max-w-md">
-            <h3 className="text-2xl font-semibold text-green-900 mb-4">
+          {/* Why Choose Us & Feature Cards directly below subtitle */}
+          <div>
+            <h3 className="text-xl xl:text-2xl font-bold text-emerald-950 mb-3.5 drop-shadow-xs">
               {language === 'te' ? 'మా ప్రత్యేకతలు' : 'Why Choose Us?'}
             </h3>
-            <div className="grid grid-cols-1 gap-3 max-w-sm">
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-xl border border-green-900/20 shadow-sm flex items-start gap-3">
-                <div className="text-2xl mt-0.5">🌾</div>
+            <div className="grid grid-cols-1 gap-3.5">
+              <div className="bg-white/85 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/80 shadow-md flex items-center gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">🌾</div>
                 <div>
-                  <h4 className="text-base font-semibold text-green-900 mb-0.5">
+                  <h4 className="text-base sm:text-lg font-bold text-emerald-950 mb-0.5">
                     {language === 'te' ? 'రైతుల నుండి నేరుగా' : 'Direct from Farmers'}
                   </h4>
-                  <p className="text-green-800 text-xs font-medium leading-tight">
-                    {language === 'te' ? 'దళారులు లేకుండా ధృవీకరించబడిన రైతుల నుండి నేరుగా కొనండి' : 'No middlemen, get produce directly from verified farmers'}
+                  <p className="text-emerald-900 text-sm sm:text-base font-medium leading-snug">
+                    {language === 'te' ? 'దళారులు లేకుండా ధృవీకరించబడిన రైతుల నుండి నేరుగా కొనండి' : 'No middlemen, buy produce directly from verified farmers'}
                   </p>
                 </div>
               </div>
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-xl border border-green-900/20 shadow-sm flex items-start gap-3">
-                <div className="text-2xl mt-0.5">💰</div>
+              <div className="bg-white/85 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/80 shadow-md flex items-center gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">💰</div>
                 <div>
-                  <h4 className="text-base font-semibold text-green-900 mb-0.5">
+                  <h4 className="text-base sm:text-lg font-bold text-emerald-950 mb-0.5">
                     {language === 'te' ? 'గిట్టుబాటు ధర' : 'Fair & Transparent'}
                   </h4>
-                  <p className="text-green-800 text-xs font-medium leading-tight">
+                  <p className="text-emerald-900 text-sm sm:text-base font-medium leading-snug">
                     {language === 'te' ? 'ప్రభుత్వ మార్కెట్ ధరలతో రైతులకు, వినియోగదారులకు న్యాయం' : 'Admin-controlled pricing ensures fairness for all'}
                   </p>
                 </div>
               </div>
-              <div className="bg-white/60 backdrop-blur-md p-3 rounded-xl border border-green-900/20 shadow-sm flex items-start gap-3">
-                <div className="text-2xl mt-0.5">🥬</div>
+              <div className="bg-white/85 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/80 shadow-md flex items-center gap-4">
+                <div className="text-3xl sm:text-4xl flex-shrink-0">🥬</div>
                 <div>
-                  <h4 className="text-base font-semibold text-green-900 mb-0.5">
+                  <h4 className="text-base sm:text-lg font-bold text-emerald-950 mb-0.5">
                     {language === 'te' ? 'తాజా & నాణ్యమైన పంట' : 'Fresh & Quality'}
                   </h4>
-                  <p className="text-green-800 text-xs font-medium leading-tight">
+                  <p className="text-emerald-900 text-sm sm:text-base font-medium leading-snug">
                     {language === 'te' ? 'రోజూ పొలం నుండి తాజాగా కోసిన నాణ్యమైన కూరగాయలు' : 'Freshly harvested, quality guaranteed every time'}
                   </p>
                 </div>
@@ -198,26 +216,21 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-
-        <div className="relative z-10 text-green-800 font-medium text-sm mt-12">
-          © 2026 FarmDirect Hub. Smart India Hackathon 2026
-        </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 bg-white">
-        <div className="w-full max-w-md pt-8">
-          {/* Mobile Header */}
-          <div className="lg:hidden flex items-center justify-center gap-3 text-primary-700 mb-6">
-            <Sprout className="w-8 h-8" />
-            <span className="text-2xl font-bold">{t('brand.name', 'FarmDirect Hub')}</span>
-          </div>
-
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-8 xl:p-12 bg-white">
+        <div className="w-full max-w-md py-4 sm:py-6">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+            {/* AgriConnect above Welcome Back */}
+            <div className="inline-flex items-center justify-center gap-2 text-primary-700 font-extrabold text-2xl sm:text-3xl tracking-tight mb-2">
+              <Sprout className="w-8 h-8 text-primary-600" />
+              <span>{t('brand.name', 'AgriConnect')}</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
               {language === 'te' ? 'స్వాగతం!' : 'Welcome Back!'}
             </h2>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-sm">
               {language === 'te' ? 'మీ ఖాతాలోకి ప్రవేశించండి' : 'Login to continue to your account'}
             </p>
           </div>
@@ -363,8 +376,32 @@ export default function LandingPage() {
             </div>
           </form>
 
+          {/* Feedback & Suggestions Callout Card (Placed Above Demo Login) */}
+          <div className="mt-6 p-3.5 bg-gradient-to-r from-emerald-50 via-green-50 to-teal-50 border border-emerald-200/80 rounded-xl flex items-center justify-between shadow-xs">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 bg-emerald-600 text-white rounded-lg shadow-xs">
+                <MessageSquare className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-gray-900">
+                  {language === 'te' ? 'సలహాదారులపై లేదా వేదికపై అభిప్రాయం ఉందా?' : 'Have Feedback or Suggestions for Admin?'}
+                </p>
+                <p className="text-[11px] text-gray-600">
+                  {language === 'te' ? 'నేరుగా అడ్మిన్‌కు మాత్రమే చేరే గోప్యమైన అభిప్రాయం' : 'Submitted directly & privately to Admin only'}
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowFeedbackModal(true)}
+              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors whitespace-nowrap cursor-pointer"
+            >
+              {language === 'te' ? 'అభిప్రాయం ఇవ్వండి' : 'Give Feedback'}
+            </button>
+          </div>
+
           {/* Demo Credentials */}
-          <div className="mt-8 bg-gray-50 border border-gray-100 rounded-xl p-4 text-sm">
+          <div className="mt-5 bg-gray-50 border border-gray-100 rounded-xl p-4 text-sm">
             <div className="flex items-center gap-2 font-semibold text-gray-700 mb-3">
               <Info className="w-4 h-4 text-blue-500" />
               {t('auth.demoTitle', 'Quick Demo Login:')}
@@ -391,6 +428,12 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
+
+      {/* Feedback Modal */}
+      <FeedbackModal 
+        isOpen={showFeedbackModal} 
+        onClose={() => setShowFeedbackModal(false)} 
+      />
     </div>
   );
 }

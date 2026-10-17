@@ -125,7 +125,7 @@ export default function LargeScaleRegister() {
           <div className="p-4 bg-emerald-50 border-b border-emerald-100 flex items-start gap-3 text-emerald-800 text-sm">
             <Info className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold">{t('bulk.minNotice', 'Minimum order ₹500. Bulk orders must be collected directly from the FarmDirect Hub.')}</p>
+              <p className="font-semibold">{t('bulk.minNotice', 'Minimum order ₹500. Bulk orders must be collected directly from the AgriConnect Hub.')}</p>
               <p className="text-xs text-emerald-700 mt-0.5">{t('bulk.noLimitNotice', 'No quantity limits! Order in bulk directly from verified farmers.')}</p>
             </div>
           </div>

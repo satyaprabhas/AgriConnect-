@@ -19,13 +19,16 @@ import {
   Send,
   Droplets,
   Check,
-  Camera
+  Camera,
+  Star,
+  MessageSquare
 } from 'lucide-react';
 import api, { getImageUrl } from '../../api/client';
 import { useLanguage } from '../../context/LanguageContext';
 import { useToast } from '../../context/ToastContext';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import CameraCaptureModal from '../../components/common/CameraCaptureModal';
+import FeedbackModal from '../../components/common/FeedbackModal';
 
 interface SoilConsultationCase {
   id: number;
@@ -103,6 +106,8 @@ export default function FarmerSupport() {
 
   // Modal for previewing photo
   const [viewingImage, setViewingImage] = useState<string | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [reviewingAdviserId, setReviewingAdviserId] = useState<number | undefined>(undefined);
 
   const fetchReports = async () => {
     try {
@@ -681,9 +686,22 @@ export default function FarmerSupport() {
                               </span>
                             </div>
                             {r.adviser_name && (
-                              <span className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
-                                {t('disease.advisedBy', 'Advised by')}: <strong>{r.adviser_name}</strong> {r.adviser_specialization && `(${r.adviser_specialization})`}
-                              </span>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
+                                  {t('disease.advisedBy', 'Advised by')}: <strong>{r.adviser_name}</strong> {r.adviser_specialization && `(${r.adviser_specialization})`}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setReviewingAdviserId(r.adviser_id);
+                                    setShowFeedbackModal(true);
+                                  }}
+                                  className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-bold flex items-center gap-1 shadow-2xs transition-colors cursor-pointer"
+                                >
+                                  <MessageSquare className="w-3 h-3 text-white" />
+                                  <span>{language === 'te' ? 'అడ్మిన్‌కు అభిప్రాయం' : 'Feedback to Admin'}</span>
+                                </button>
+                              </div>
                             )}
                           </div>
 
@@ -764,6 +782,14 @@ export default function FarmerSupport() {
           setPreviewUrl(dataUrl);
         }}
         title={language === 'te' ? 'నేల పరీక్ష పత్రం ఫోటో తీయండి' : 'Capture Soil Health Card / Report'}
+      />
+
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        defaultFeedbackType="ADVISER"
+        preselectedAdviserId={reviewingAdviserId}
       />
     </div>
   );

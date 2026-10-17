@@ -29,7 +29,11 @@ const MyProduce: React.FC = () => {
     try {
       if (!silent) setLoading(true);
       const response = await api.get('/farmer/produce');
-      setProduce(response.data.data || response.data);
+      const list = response.data.data || response.data || [];
+      const activeList = Array.isArray(list) 
+        ? list.filter((item: any) => item.status !== 'INACTIVE') 
+        : [];
+      setProduce(activeList);
     } catch (err) {
       if (!silent) {
         console.error('Error fetching produce:', err);
@@ -71,27 +75,31 @@ const MyProduce: React.FC = () => {
       await api.put(`/farmer/produce/${editItem.id}`, {
         available_quantity: newQuantity
       });
-      showToast('success', 'Quantity updated successfully');
+      showToast(language === 'te' ? 'పరిమాణం విజయవంతంగా నవీకరించబడింది' : 'Quantity updated successfully', 'success');
       setEditItem(null);
       fetchProduce();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error updating quantity:', err);
-      showToast('error', 'Failed to update quantity');
+      showToast(err.response?.data?.error || (language === 'te' ? 'నవీకరించడంలో విఫలమైంది' : 'Failed to update quantity'), 'error');
     } finally {
       setActionLoading(false);
     }
   };
 
   const handleDelete = async () => {
+    if (!deleteItem) return;
+    const targetId = deleteItem.id;
     try {
       setActionLoading(true);
-      await api.delete(`/farmer/produce/${deleteItem.id}`);
-      showToast('success', 'Produce listing removed');
+      await api.delete(`/farmer/produce/${targetId}`);
+      showToast(language === 'te' ? 'ఉత్పత్తి విజయవంతంగా తొలగించబడింది' : 'Produce listing removed successfully', 'success');
+      // Optimistically remove from state immediately
+      setProduce((prev) => prev.filter((p) => p.id !== targetId));
       setDeleteItem(null);
-      fetchProduce();
-    } catch (err) {
+      await fetchProduce(true);
+    } catch (err: any) {
       console.error('Error deleting produce:', err);
-      showToast('error', 'Failed to remove listing');
+      showToast(err.response?.data?.error || (language === 'te' ? 'తొలగించడంలో విఫలమైంది' : 'Failed to remove listing'), 'error');
     } finally {
       setActionLoading(false);
     }

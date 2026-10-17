@@ -50,6 +50,8 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminReports from './pages/admin/AdminReports';
 import AdminNotifications from './pages/admin/AdminNotifications';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminFeedback from './pages/admin/AdminFeedback';
+import PortalFeedback from './pages/common/PortalFeedback';
 
 // Farmer pages
 import FarmerDashboard from './pages/farmer/FarmerDashboard';
@@ -86,7 +88,7 @@ import CoordCustomers from './pages/coordinator/CoordCustomers';
 import CoordReports from './pages/coordinator/CoordReports';
 import CoordNotifications from './pages/coordinator/CoordNotifications';
 
-import { TrendingUp, Stethoscope, GraduationCap, Building2, FlaskConical } from 'lucide-react';
+import { TrendingUp, Stethoscope, GraduationCap, Building2, FlaskConical, MessageSquare } from 'lucide-react';
 
 const ProtectedRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -124,6 +126,7 @@ const getRoleMenuItems = (role: string, t: (k: string, fb?: string) => string) =
         { path: '/admin/products', label: t('menu.products', 'Products'), icon: <Package size={20} /> },
         { path: '/admin/orders', label: t('menu.orders', 'Orders'), icon: <ClipboardList size={20} /> },
         { path: '/admin/reports', label: t('menu.reports', 'Reports'), icon: <BarChart3 size={20} /> },
+        { path: '/admin/feedback', label: t('menu.feedback', 'Feedback (Admin Only)'), icon: <MessageSquare size={20} /> },
         { path: '/admin/notifications', label: t('menu.notifications', 'Notifications'), icon: <Bell size={20} /> },
         { path: '/admin/settings', label: t('menu.settings', 'Settings'), icon: <Settings size={20} /> },
       ];
@@ -137,6 +140,7 @@ const getRoleMenuItems = (role: string, t: (k: string, fb?: string) => string) =
         { path: '/farmer/add-produce', label: t('menu.addProduce', 'Add Produce'), icon: <PlusCircle size={20} /> },
         { path: '/farmer/orders', label: t('menu.myOrders', 'My Orders'), icon: <ClipboardList size={20} /> },
         { path: '/farmer/earnings', label: t('menu.myEarnings', 'My Earnings'), icon: <IndianRupee size={20} /> },
+        { path: '/farmer/feedback', label: t('feedback.title', 'Send Feedback to Admin'), icon: <MessageSquare size={20} /> },
         { path: '/farmer/profile', label: t('menu.profile', 'Profile'), icon: <User size={20} /> },
         { path: '/farmer/notifications', label: t('menu.notifications', 'Notifications'), icon: <Bell size={20} /> },
       ];
@@ -145,6 +149,7 @@ const getRoleMenuItems = (role: string, t: (k: string, fb?: string) => string) =
         { path: '/consumer', label: t('menu.marketplace', 'Marketplace'), icon: <Store size={20} /> },
         { path: '/consumer/cart', label: t('menu.myCart', 'My Cart'), icon: <ShoppingCart size={20} /> },
         { path: '/consumer/orders', label: t('menu.myOrders', 'My Orders'), icon: <ClipboardList size={20} /> },
+        { path: '/consumer/feedback', label: t('feedback.title', 'Send Feedback to Admin'), icon: <MessageSquare size={20} /> },
         { path: '/consumer/profile', label: t('menu.profile', 'Profile'), icon: <User size={20} /> },
         { path: '/consumer/notifications', label: t('menu.notifications', 'Notifications'), icon: <Bell size={20} /> },
       ];
@@ -153,6 +158,7 @@ const getRoleMenuItems = (role: string, t: (k: string, fb?: string) => string) =
         { path: '/large-scale-consumer', label: t('menu.marketplace', 'Wholesale Market'), icon: <Store size={20} /> },
         { path: '/consumer/cart', label: t('menu.myCart', 'My Cart'), icon: <ShoppingCart size={20} /> },
         { path: '/consumer/orders', label: t('menu.myOrders', 'My Orders'), icon: <ClipboardList size={20} /> },
+        { path: '/consumer/feedback', label: t('feedback.title', 'Send Feedback to Admin'), icon: <MessageSquare size={20} /> },
         { path: '/consumer/profile', label: t('menu.profile', 'Profile'), icon: <User size={20} /> },
         { path: '/consumer/notifications', label: t('menu.notifications', 'Notifications'), icon: <Bell size={20} /> },
       ];
@@ -205,7 +211,7 @@ const DashboardLayout = ({ role }: { role: string }) => {
         <div className="flex items-center justify-between py-6 px-4 border-b">
           <div className="flex items-center space-x-2">
             <Sprout className="w-8 h-8 text-primary-600" />
-            <span className="text-xl font-bold text-gray-800">{t('brand.name', 'FarmDirect Hub')}</span>
+            <span className="text-xl font-bold text-gray-800">{t('brand.name', 'AgriConnect')}</span>
           </div>
           <button className="md:hidden text-gray-500" onClick={() => setSidebarOpen(false)}>
             <X className="w-6 h-6" />
@@ -315,6 +321,7 @@ export default function App() {
                   <Route path="/admin/orders" element={<AdminOrders />} />
                   <Route path="/admin/products" element={<AdminProducts />} />
                   <Route path="/admin/reports" element={<AdminReports />} />
+                  <Route path="/admin/feedback" element={<AdminFeedback />} />
                   <Route path="/admin/notifications" element={<AdminNotifications />} />
                   <Route path="/admin/settings" element={<AdminSettings />} />
                 </Route>
@@ -330,6 +337,7 @@ export default function App() {
                   <Route path="/farmer/add-produce" element={<AddProduce />} />
                   <Route path="/farmer/orders" element={<FarmerOrders />} />
                   <Route path="/farmer/earnings" element={<FarmerEarnings />} />
+                  <Route path="/farmer/feedback" element={<PortalFeedback />} />
                   <Route path="/farmer/profile" element={<FarmerProfile />} />
                   <Route path="/farmer/notifications" element={<FarmerNotifications />} />
                 </Route>
@@ -355,6 +363,7 @@ export default function App() {
                   <Route path="/consumer/checkout" element={<Checkout />} />
                   <Route path="/consumer/orders" element={<ConsumerOrders />} />
                   <Route path="/consumer/orders/:id" element={<OrderTracking />} />
+                  <Route path="/consumer/feedback" element={<PortalFeedback />} />
                   <Route path="/consumer/profile" element={<ConsumerProfile />} />
                   <Route path="/consumer/notifications" element={<ConsumerNotifications />} />
                 </Route>

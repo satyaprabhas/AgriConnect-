@@ -171,7 +171,7 @@ export default function Marketplace() {
                     </span>
                   </div>
                   <p className="text-emerald-800 text-xs mt-0.5 font-medium">
-                    {t('bulk.minNotice', 'Minimum order ₹500. Bulk orders must be collected directly from the FarmDirect Hub.')}
+                    {t('bulk.minNotice', 'Minimum order ₹500. Bulk orders must be collected directly from the AgriConnect Hub.')}
                   </p>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 {
-  "name": "farmdirect-hub",
+  "name": "agriconnect",
   "version": "1.0.0",
-  "description": "FarmDirect Hub - From Farm to You, Without Middlemen (SIH 2026)",
+  "description": "AgriConnect - From Farm to You, Without Middlemen (SIH 2026)",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",

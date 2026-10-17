@@ -9,7 +9,7 @@ const AdminSettings: React.FC = () => {
   
   const [profileData, setProfileData] = useState({
     name: user?.full_name || '',
-    email: 'admin@farmdirect.com', // placeholder if not in user object
+    email: 'admin@agriconnect.com', // placeholder if not in user object
     mobile: user?.mobile_number || ''
   });
 

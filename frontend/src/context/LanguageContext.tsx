@@ -12,7 +12,7 @@ interface LanguageContextType {
 
 const translations: Record<string, { en: string; te: string }> = {
   // Brand & Header
-  'brand.name': { en: 'FarmDirect Hub', te: 'ఫార్మ్‌డైరెక్ట్ హబ్' },
+  'brand.name': { en: 'AgriConnect', te: 'అగ్రి కనెక్ట్' },
   'brand.tagline': { en: 'From Farm to You, Without Middlemen', te: 'రైతుల నుండి నేరుగా మీకు - దళారులు లేకుండా' },
   'nav.language': { en: 'Language', te: 'భాష' },
   'nav.logout': { en: 'Logout', te: 'లాగౌట్' },
@@ -168,7 +168,7 @@ const translations: Record<string, { en: string; te: string }> = {
   'cart.quantity': { en: 'Quantity', te: 'పరిమాణం' },
   'cart.itemsCount': { en: 'items', te: 'వస్తువులు' },
   'cart.fairTradeGuarantee': { en: 'Fair Trade Guarantee:', te: 'గిట్టుబాటు ధర హామీ:' },
-  'cart.fairTradeDesc': { en: 'Prices are set by FarmDirect Hub admin and are non-negotiable. This ensures farmers receive fair compensation and consumers pay transparent, market-appropriate rates.', te: 'ధరలు ఫార్మ్‌డైరెక్ట్ హబ్ అడ్మిన్ ద్వారా నిర్ణయించబడతాయి. దీనివల్ల రైతులకు న్యాయమైన ధర, వినియోగదారులకు పారదర్శకమైన ధర లభిస్తుంది.' },
+  'cart.fairTradeDesc': { en: 'Prices are set by AgriConnect admin and are non-negotiable. This ensures farmers receive fair compensation and consumers pay transparent, market-appropriate rates.', te: 'ధరలు అగ్రి కనెక్ట్ అడ్మిన్ ద్వారా నిర్ణయించబడతాయి. దీనివల్ల రైతులకు న్యాయమైన ధర, వినియోగదారులకు పారదర్శకమైన ధర లభిస్తుంది.' },
   'cart.calculatedAtCheckout': { en: 'Calculated at checkout', te: 'చెల్లింపు వద్ద లెక్కించబడుతుంది' },
   'cart.deliveryNote': { en: '+ Delivery charges if applicable', te: '+ వర్తించే డెలివరీ ఛార్జీలు' },
   'cart.codNotice': { en: 'Payment is collected upon delivery (COD).', te: 'డెలివరీ సమయంలో నగదు చెల్లింపు (COD).' },
@@ -278,7 +278,7 @@ const translations: Record<string, { en: string; te: string }> = {
   // Large Scale Consumer
   'bulk.dashTitle': { en: 'Large Scale Consumer Wholesale Portal', te: 'భారీ / టోకు వినియోగదారు పోర్టల్' },
   'bulk.badge': { en: 'Wholesale / Bulk Buyer', te: 'టోకు / భారీ కొనుగోలుదారు' },
-  'bulk.minNotice': { en: 'Minimum order ₹500. Bulk orders must be collected directly from the FarmDirect Hub.', te: 'కనీస ఆర్డర్ ₹500. భారీ ఆర్డర్లను నేరుగా ఫార్మ్‌డైరెక్ట్ హబ్ వద్దనే తీసుకోవాలి.' },
+  'bulk.minNotice': { en: 'Minimum order ₹500. Bulk orders must be collected directly from the AgriConnect Hub.', te: 'కనీస ఆర్డర్ ₹500. భారీ ఆర్డర్లను నేరుగా అగ్రి కనెక్ట్ హబ్ వద్దనే తీసుకోవాలి.' },
   'bulk.noLimitNotice': { en: 'No quantity limits! Order in bulk directly from verified farmers.', te: 'పరిమాణంపై ఎటువంటి పరిమితులు లేవు! రైతుల నుండి నేరుగా భారీగా ఆర్డర్ చేయండి.' },
   'bulk.businessName': { en: 'Business / Organization Name', te: 'వ్యాపారం / సంస్థ పేరు' },
 
@@ -362,7 +362,7 @@ const translations: Record<string, { en: string; te: string }> = {
   'status.CANCELLED': { en: 'Cancelled', te: 'రద్దు చేయబడింది' },
 
   // Auth & Landing
-  'auth.welcome': { en: 'Welcome to FarmDirect Hub', te: 'ఫార్మ్‌డైరెక్ట్ హబ్‌కి స్వాగతం' },
+  'auth.welcome': { en: 'Welcome to AgriConnect', te: 'అగ్రి కనెక్ట్‌కు స్వాగతం' },
   'auth.subtitle': { en: 'Empowering farmers with fair mandated prices & connecting consumers directly with fresh harvest.', te: 'రైతులకు గిట్టుబాటు ధరను అందిస్తూ, వినియోగదారులకు నేరుగా తాజా కూరగాయలను చేరవేస్తుంది.' },
   'auth.login': { en: 'Sign In', te: 'లాగిన్ చేయండి' },
   'auth.selectRole': { en: 'Select Your Role', te: 'మీ పాత్రను ఎంచుకోండి' },
@@ -418,7 +418,7 @@ const translations: Record<string, { en: string; te: string }> = {
   'coord.updateStatus': { en: 'Update Delivery Status', te: 'డెలివరీ స్థితిని మార్చండి' },
 
   // Registration Portal
-  'reg.joinTitle': { en: 'Join FarmDirect Hub', te: 'ఫార్మ్‌డైరెక్ట్ హబ్‌లో చేరండి' },
+  'reg.joinTitle': { en: 'Join AgriConnect', te: 'అగ్రి కనెక్ట్‌లో చేరండి' },
   'reg.joinSubtitle': { en: 'Choose your role to get started and be part of the agricultural revolution.', te: 'ప్రారంభించడానికి మీ పాత్రను ఎంచుకోండి మరియు నూతన వ్యవసాయ మార్కెట్‌లో భాగస్వామ్యం అవ్వండి.' },
   'reg.farmerDesc': { en: 'List your produce and sell directly to consumers at fair prices.', te: 'మీ పంటను నమోదు చేయండి మరియు నేరుగా వినియోగదారులకు గిట్టుబాటు ధరకు విక్రయించండి.' },
   'reg.consumerDesc': { en: 'Buy fresh, quality produce directly from verified local farmers.', te: 'ధృవీకరించబడిన స్థానిక రైతుల నుండి నేరుగా తాజా, నాణ్యమైన కూరగాయలను కొనండి.' },
