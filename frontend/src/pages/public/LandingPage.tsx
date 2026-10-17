@@ -74,7 +74,8 @@ export default function LandingPage() {
           navigate('/');
       }
     } catch (err: any) {
-      setError(err.message || (language === 'te' ? 'లాగిన్ విఫలమైంది. దయచేసి వివరాలు సరిచూడండి.' : 'Login failed. Please check your credentials.'));
+      const errMsg = err.response?.data?.error || err.message || (language === 'te' ? 'లాగిన్ విఫలమైంది. దయచేసి వివరాలు సరిచూడండి.' : 'Login failed. Please check your credentials.');
+      setError(errMsg);
     }
   };
 
@@ -111,7 +112,8 @@ export default function LandingPage() {
           navigate('/');
       }
     } catch (err: any) {
-      setError(err.message || (language === 'te' ? 'లాగిన్ విఫలమైంది. దయచేసి వివరాలు సరిచూడండి.' : 'Login failed. Please check your credentials.'));
+      const errMsg = err.response?.data?.error || err.message || (language === 'te' ? 'లాగిన్ విఫలమైంది. దయచేసి వివరాలు సరిచూడండి.' : 'Login failed. Please check your credentials.');
+      setError(errMsg);
     }
   };
 
