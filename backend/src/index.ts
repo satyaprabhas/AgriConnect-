@@ -61,6 +61,18 @@ app.use('/api/feedback', feedbackRoutes);
 
 app.get('/api/health', (req, res) => { res.json({ status: 'ok', message: 'AgriConnect API is running' }); });
 
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'AgriConnect Backend API',
+    endpoints: {
+      health: '/api/health',
+      login: '/api/auth/login',
+      products: '/api/products',
+    }
+  });
+});
+
 // Initialize DB (async) then start server
 async function startServer() {
   await initDb();
